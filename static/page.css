@@ -9,3 +9,9 @@
     margin-bottom: 1rem;
     border-radius: 5px;
 }
+
+a {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-decoration: none;
+    color: black;
+}
