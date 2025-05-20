@@ -36,8 +36,9 @@ def sock():
 
 
 def get_method(path, cursor, query_params = None):
-    if path in ("/", "/articles"):
-        return sock_views.index(cursor, query_params)
+    print(path)
+    if path in ("/", "/articles"): return sock_views.index(cursor, query_params)
+    else: return sock_views.notFound()
 
 
 def put_method(path, cursor, query_params = None):

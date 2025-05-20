@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import sqlite3 as sql
-import views
+import views, sys
 from urllib.parse import urlparse, parse_qs
 
 db = 'db.sqlite3'
@@ -30,8 +30,10 @@ class Server(BaseHTTPRequestHandler):
 
 
 def main():
+    if len(sys.argv) != 2:
+        sys.exit("Usage: takes 1 positional argument which is the port number")
     try:
-        httpd = HTTPServer(('localhost', 8080), Server)
+        httpd = HTTPServer(('localhost', int(sys.argv[1])), Server)
         print("Serving on http://localhost:8080")
         httpd.serve_forever()
     except KeyboardInterrupt:

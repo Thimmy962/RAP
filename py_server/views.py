@@ -13,7 +13,7 @@ def index(self, cursor, query_params = None):
     offset = int(query_params.get("offset", [0])[0])  # default to 0
     limit = int(query_params.get("limit", [10])[0])
     
-    cmd = "SELECT id, title, abstract FROM article ORDER BY RANDOM() LIMIT ? OFFSET ?"
+    cmd = "SELECT id, title, abstract FROM article LIMIT ? OFFSET ?"
     results = cursor.execute(cmd, (limit, offset)).fetchall()
 
     if not results:

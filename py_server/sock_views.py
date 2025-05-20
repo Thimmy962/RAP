@@ -2,6 +2,19 @@ import json
 from urllib.parse import urlparse, parse_qs
 
 
+def notFound():
+        response = json.dumps({"message": "Url Not Found"}, separators=(',', ':')).encode("UTF-8")
+        res = (
+            "HTTP/1.1 404 Not Found\r\n"
+            "Content-Type: application/json\r\n"
+            "Access-Control-Allow-Origin: *\r\n"
+            "Access-Control-Allow-Methods: GET, PUT, POST\r\n"
+            f"Content-Length: {len(response)}\r\n"
+            "\r\n"
+        ).encode("UTF-8") + response
+        return res
+
+
 def serializer(large_data):
     return [{"id": row[0], "title": row[1], "abstract": row[2]} for row in large_data]
 
