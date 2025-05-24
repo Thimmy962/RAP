@@ -3,7 +3,7 @@ from urllib.parse import urlparse, parse_qs
 
 
 def serializer(large_data):
-    return [{"id": row[0], "title": row[1], "abstract": row[2]} for row in large_data]
+    return 
 
 
 def index(self, cursor, query_params = None):
@@ -20,7 +20,9 @@ def index(self, cursor, query_params = None):
         self.send_response(204)  # No Content
         self.end_headers()
         return
-    serialized = serializer(results)
+    # serialized = [{"id": row[0], "title": row[1], "abstract": row[2]} for row in results]
+    serialized = [dict(row) for row in results]
+
     response = json.dumps(serialized, separators=(',', ':')).encode()
     self.send_response(200)
     self.send_header("Content-Length", str(len(response)))
@@ -29,8 +31,19 @@ def index(self, cursor, query_params = None):
     self.wfile.write(response)
 
 
-def about(self, cursor, query_params = None):
-    data = [{"title": "A cap", "body": "A very big cap"}]
+def article(self, cursor, query_params):
+    article_id = int(query_params.get("id")[0])
+    
+    cmd = "SELECT * FROM article WHERE id = ?"
+    results = cursor.execute(cmd, (article_id,)).fetchone()  # <-- use a tuple
+    if not results:
+        self.send_response(204)  # No Content
+        self.end_headers()
+        return
+    
+
+    data = dict(results)
+    
     response = json.dumps(data, separators=(',', ':')).encode()
     self.send_response(200)
     self.send_header("Content-Length", str(len(response)))

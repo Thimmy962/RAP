@@ -4,8 +4,9 @@ import views, sys
 from urllib.parse import urlparse, parse_qs
 
 db = 'db.sqlite3'
-with sql.connect('db.sqlite3') as connection:
-    cursor = connection.cursor()
+connection = sql.connect('db.sqlite3')
+connection.row_factory = sql.Row  # This is done for easy serialization of the roles returned using the dict function
+cursor = connection.cursor()
 
 
 class Server(BaseHTTPRequestHandler):
@@ -23,7 +24,7 @@ class Server(BaseHTTPRequestHandler):
 
 
         if path in ('/','/articles'): views.index(self, cursor, query_params)
-        elif path in '/article/': views.about(self, cursor, query_params)
+        elif path in '/article': views.article(self, cursor, query_params)
         elif path == '/hello': views.about(self, cursor, query_params)
         else: self.send_error(404, message = "Url not found")
 
